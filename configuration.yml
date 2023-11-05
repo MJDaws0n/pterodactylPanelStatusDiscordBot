@@ -1,0 +1,42 @@
+discordBot:
+  token: 'MTAyMDYxMjc3MzU4OTI5MTA0OA.GD6bsx.m7oLZutQ_TGzC1pO5NQY056fnMQylxBjr5UJMw' # Enter your bot token here
+  text: 'Testing' # The text for the discord bot
+  type: 'watching' # This can be set to 'watching', 'playing', 'listening', or 'competing'
+  status: 'online' # This can be set to 'online', 'idle', 'dnd'(do not disturb), or 'invisible'
+
+discordServer:
+  channelID: '1020619434450243614' # Set this to the channel ID where you want notifications to be sent
+  liveChannelID: '1020619434450243614' # Set this to the channel ID where you want the status message to be sent
+
+statusText:
+  online: ':online: Online'
+  offline: ':offline: Offline'
+
+message:
+  title: 'WebWorks Server Status'
+  description: 'WebWorks Server Status'
+  footer: 'WebWorks'
+  colour: '5763719' # Must be as discords form, AKA Int value. If you don't know how to convert, you can use this website https://www.mathsisfun.com/hexadecimal-decimal-colors.html
+  timestamp: true # Whether you do or don't show the time on the message
+  image: ''  # Leave blank to have no image
+  thumbnail: ''  # Leave blank to have no thumbnail
+
+messageButtons:
+  enableButtons: true
+
+  # Leave the text and url field blank to ignore the button
+  button1:
+    text: 'Website'
+    url: 'https://webworkshub.online'
+  button2:
+    text: 'Panel'
+    url: 'https://panel.webworkshub.online'
+  button3:
+    text: ''
+    url: ''
+  button4:
+    text: ''
+    url: ''
+  button5:
+    text: ''
+    url: ''
