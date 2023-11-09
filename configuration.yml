@@ -1,5 +1,7 @@
+loggingName: 'WebWorks Server Status' # Just for console logging
+
 discordBot:
-  token: 'MTAyMDYxMjc3MzU4OTI5MTA0OA.GKe_rw.chn60bI2xKa_G_CsQG0xV3zL1t2z7w5UEToLtw' # Enter your bot token here
+  token: 'MTAyMDYxMjc3MzU4OTI5MTA0OA.GVr6c0.N6YWDCqrQTm_LE0HMLv2EGoEYAfPnxgokM11-E' # Enter your bot token here
   text: 'Testing' # The text for the discord bot
   type: 'watching' # This can be set to 'watching', 'playing', 'listening', or 'competing'
   status: 'online' # This can be set to 'online', 'idle', 'dnd'(do not disturb), or 'invisible'
@@ -9,15 +11,13 @@ discordServer:
   liveChannelID: '1020619434450243614' # Set this to the channel ID where you want the status message to be sent
 
 statusText:
-  online: ':online: Online'
-  offline: ':offline: Offline'
+  online: '<:online:1160669028323442708> Online'
+  offline: '<:offline:1160669026117230633> Offline'
 
 statusMessage:
   online:
     title: '{name} is back online!' # Use {name} to specify the node name. Will just display 'Panel' if the message is for the panel
-    description: 'Thanks for your patience!
-
-    We will try to prevent this happening again :tools:' # Use {name} to specify the node name. Will just display 'Panel' if the message is for the panel
+    description: "Thanks for your patience!\n\nWe will try to prevent this happening again :tools:" # Use {name} to specify the node name. Will just display 'Panel' if the message is for the panel
     footer: 'WebWorks Update' # Use {name} to specify the node name. Will just display 'Panel' if the message is for the panel
     colour: 5763719 # Must be as discords form, AKA Int value. If you don't know how to convert, you can use this website https://www.mathsisfun.com/hexadecimal-decimal-colors.html
     timestamp: true # Whether you do or don't show the time on the message
@@ -25,9 +25,7 @@ statusMessage:
     thumbnail: '' # Leave blank to have no thumbnail
   offline:
     title: '{name} is down!' # Use {name} to specify the node name. Will just display 'Panel' if the message is for the panel
-    description: 'We apologize for the inconvenience!
-    
-    We will try to get this back up momentarily :tools:' # Use {name} to specify the node name. Will just display 'Panel' if the message is for the panel
+    description: "We apologize for the inconvenience!\n\nWe will try to get this back up momentarily :tools:" # Use {name} to specify the node name. Will just display 'Panel' if the message is for the panel
     footer: 'WebWorks Update' # Use {name} to specify the node name. Will just display 'Panel' if the message is for the panel
     colour: 16718109 # Must be as discords form, AKA Int value. If you don't know how to convert, you can use this website https://www.mathsisfun.com/hexadecimal-decimal-colors.html
     timestamp: true # Whether you do or don't show the time on the message
@@ -38,7 +36,7 @@ liveMessage:
   title: 'WebWorks Server Status'
   description: 'WebWorks Server Status'
   footer: 'WebWorks'
-  colour: '5763719' # Must be as discords form, AKA Int value. If you don't know how to convert, you can use this website https://www.mathsisfun.com/hexadecimal-decimal-colors.html
+  colour: 000000 # Must be as discords form, AKA Int value. If you don't know how to convert, you can use this website https://www.mathsisfun.com/hexadecimal-decimal-colors.html
   timestamp: true # Whether you do or don't show the time on the message
   image: ''  # Leave blank to have no image
   thumbnail: ''  # Leave blank to have no thumbnail
@@ -66,4 +64,4 @@ messageButtons:
 pterodactyl:
   apiKey: 'ptla_ojkHeSPsKFLjG0vK7TRZav9dotBAuL0T5LZAv9ZG3k9' # Set this to your panel API key. It can be created @ https://yourpanel.com/admin/api
   url: 'https://panel.webworkshub.online' # Should start with https:// or http://. Should not contain any url slug. And MUST NOT contain the / at the end
-  refresh: 60 # In seconds how long between update
+  refresh: 10 # In seconds how long between update.
