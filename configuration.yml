@@ -42,8 +42,6 @@ liveMessage:
   thumbnail: ''  # Leave blank to have no thumbnail
 
 messageButtons:
-  enableButtons: true
-
   # Leave the text and url field blank to ignore the button
   button1:
     text: 'Website'

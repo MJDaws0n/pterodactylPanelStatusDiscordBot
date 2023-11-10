@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, EmbedBuilder, Events, Partials } = require('discord.js');
+const { Client, GatewayIntentBits, EmbedBuilder, Events, Partials, ActionRowBuilder, ButtonBuilder} = require('discord.js');
 const fs = require('fs');
 const yaml = require('js-yaml');
 const axios = require('axios');
@@ -67,20 +67,34 @@ async function liveUpdate(){
                 .setFooter({ text: config.liveMessage.footer })
                 .setColor(config.liveMessage.colour);
     
-                if(config.liveMessage.timestamp){
-                    editedEmbed.setTimestamp();
-                }
+            if(config.liveMessage.timestamp){
+                embed.setTimestamp();
+            }
 
-                if(config.liveMessage.image != ''){
-                    editedEmbed.setImage(config.liveMessage.image);
-                }
+            if(config.liveMessage.image != ''){
+                embed.setImage(config.liveMessage.image);
+            }
 
-                if(config.liveMessage.thumbnail != ''){
-                    editedEmbed.setThumbnail(config.liveMessage.thumbnail);
+            if(config.liveMessage.thumbnail != ''){
+                embed.setThumbnail(config.liveMessage.thumbnail);
+            }
+
+            // Setup the buttons
+            var row = new ActionRowBuilder();
+            
+            for (let index = 1; index < 5; index++) {
+                if(config.messageButtons[`button${index}`].text != '' && config.messageButtons[`button${index}`].url != '' ){
+                    row.addComponents(
+                        new ButtonBuilder()
+                            .setLabel(config.messageButtons[`button${index}`].text)
+                            .setStyle('Link')
+                            .setURL(config.messageButtons[`button${index}`].url),
+                    );
                 }
-      
+            }
+    
             // Get message ID
-            const sentMessage = await channel.send({ embeds: [embed] });
+            const sentMessage = await channel.send({ embeds: [embed], components: [row] });
 
             // Update the live message ID
             serverConfig.liveMessage = sentMessage.id;
@@ -157,9 +171,23 @@ async function liveUpdate(){
                         if(config.liveMessage.thumbnail != ''){
                             editedEmbed.setThumbnail(config.liveMessage.thumbnail);
                         }
+
+                        // Setup the buttons
+                        var row = new ActionRowBuilder();
+                        
+                        for (let index = 1; index < 5; index++) {
+                            if(config.messageButtons[`button${index}`].text != '' && config.messageButtons[`button${index}`].url != '' ){
+                                row.addComponents(
+                                    new ButtonBuilder()
+                                        .setLabel(config.messageButtons[`button${index}`].text)
+                                        .setStyle('Link')
+                                        .setURL(config.messageButtons[`button${index}`].url),
+                                );
+                            }
+                        }
             
                         // Modify the embed in the target message
-                        targetMessage.edit({ embeds: [editedEmbed] });
+                        targetMessage.edit({ embeds: [editedEmbed], components: [row] });
                     });
                 });
             } else {
