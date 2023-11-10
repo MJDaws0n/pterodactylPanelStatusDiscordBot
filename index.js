@@ -147,9 +147,9 @@ async function liveUpdate(){
                             for (const [nodeID, localNodeStatus] of Object.entries(nodeStatus)) {
                                 description += `**${nodeNames[nodeID]}: **`;
                                 if(localNodeStatus){
-                                    description += config.statusText.online+'\n```Disk : '+roundToDecimalPlace(allNodes[nodeID].diskUsed / 1024/ 1024 / 1024, 1)+' GB / '+allNodes[nodeID].disk / 1024+' GB\nServers : '+allNodes[nodeID].serversCount+'```';
+                                    description += config.statusText.online+'\n```Disk : '+roundToDecimalPlace(allNodes[nodeID].diskUsed / 1024/ 1024 / 1024, 1)+' GB / '+allNodes[nodeID].disk / 1024+' GB\nServers : '+allNodes[nodeID].serversCount+'```\n';
                                 } else{
-                                    description += config.statusText.offline+'\n```Disk : '+roundToDecimalPlace(allNodes[nodeID].diskUsed / 1024/ 1024 / 1024, 1)+' GB / '+allNodes[nodeID].disk / 1024+' GB\nServers : '+allNodes[nodeID].serversCount+'```';
+                                    description += config.statusText.offline+'\n```Disk : '+roundToDecimalPlace(allNodes[nodeID].diskUsed / 1024/ 1024 / 1024, 1)+' GB / '+allNodes[nodeID].disk / 1024+' GB\nServers : '+allNodes[nodeID].serversCount+'```\n';
                                 }
                             }
                         }
