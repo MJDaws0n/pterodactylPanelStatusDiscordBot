@@ -1,7 +1,8 @@
 const { Client, GatewayIntentBits, EmbedBuilder, Events, Partials } = require('discord.js');
 const fs = require('fs');
 const yaml = require('js-yaml');
-const axios = require('axios')
+const axios = require('axios');
+const { Console } = require('console');
 
 const client = new Client({ 
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessageReactions],
@@ -65,12 +66,18 @@ async function liveUpdate(){
                 .setDescription(config.liveMessage.description)
                 .setFooter({ text: config.liveMessage.footer })
                 .setColor(config.liveMessage.colour);
-                // .setImage(config.liveMessage.image)
-                // .setThumbnail(config.liveMessage.image);
     
-            if(config.liveMessage.timestamp){
-                embed.setTimestamp();
-            }
+                if(config.liveMessage.timestamp){
+                    editedEmbed.setTimestamp();
+                }
+
+                if(config.liveMessage.image != ''){
+                    editedEmbed.setImage(config.liveMessage.image);
+                }
+
+                if(config.liveMessage.thumbnail != ''){
+                    editedEmbed.setThumbnail(config.liveMessage.thumbnail);
+                }
       
             // Get message ID
             const sentMessage = await channel.send({ embeds: [embed] });
@@ -119,16 +126,17 @@ async function liveUpdate(){
                     } else{
                         description += config.statusText.offline;
                     }
-
                     description += "\n\n";
 
-                    getNodeStatus(function(){
-                        for (const [nodeID, localNodeStatus] of Object.entries(nodeStatus)) {
-                            description += `**${nodeNames[nodeID]}: **`;
-                            if(localNodeStatus){
-                                description += config.statusText.online+'\n```Disk : '+roundToDecimalPlace(allNodes[nodeID].diskUsed / 1024/ 1024 / 1024, 1)+' GB / '+allNodes[nodeID].disk / 1024+' GB\nServers : '+allNodes[nodeID].serversCount+'```';
-                            } else{
-                                description += config.statusText.offline+'\n```Disk : '+roundToDecimalPlace(allNodes[nodeID].diskUsed / 1024/ 1024 / 1024, 1)+' GB / '+allNodes[nodeID].disk / 1024+' GB\nServers : '+allNodes[nodeID].serversCount+'```';
+                    getNodeStatus(function(status){
+                        if(status == 'done'){
+                            for (const [nodeID, localNodeStatus] of Object.entries(nodeStatus)) {
+                                description += `**${nodeNames[nodeID]}: **`;
+                                if(localNodeStatus){
+                                    description += config.statusText.online+'\n```Disk : '+roundToDecimalPlace(allNodes[nodeID].diskUsed / 1024/ 1024 / 1024, 1)+' GB / '+allNodes[nodeID].disk / 1024+' GB\nServers : '+allNodes[nodeID].serversCount+'```';
+                                } else{
+                                    description += config.statusText.offline+'\n```Disk : '+roundToDecimalPlace(allNodes[nodeID].diskUsed / 1024/ 1024 / 1024, 1)+' GB / '+allNodes[nodeID].disk / 1024+' GB\nServers : '+allNodes[nodeID].serversCount+'```';
+                                }
                             }
                         }
                         
@@ -137,11 +145,17 @@ async function liveUpdate(){
                         .setDescription(description)
                         .setFooter({ text: config.liveMessage.footer })
                         .setColor(config.liveMessage.colour);
-                        // .setImage(config.liveMessage.image)
-                        // .setThumbnail(config.liveMessage.image);
             
                         if(config.liveMessage.timestamp){
                             editedEmbed.setTimestamp();
+                        }
+
+                        if(config.liveMessage.image != ''){
+                            editedEmbed.setImage(config.liveMessage.image);
+                        }
+
+                        if(config.liveMessage.thumbnail != ''){
+                            editedEmbed.setThumbnail(config.liveMessage.thumbnail);
                         }
             
                         // Modify the embed in the target message
@@ -210,6 +224,8 @@ function getNodeStatus(callback){
     }).then((data) => {
         const nodes = data.data.data; // First .data is for the data of the requests, second is for pterodactyl
 
+        var processedNodesCount = 0;
+
         nodes.forEach(node => {
             if(node.object == 'node'){
                 const id = node.attributes.id;
@@ -255,7 +271,15 @@ function getNodeStatus(callback){
                         allNodes[id] = {id: id, public: public, maintenanceMode: maintenanceMode, name: name, fqdn: fqdn, scheme: scheme, port: port, disk: disk, serversCount: serversCount, diskUsed: diskUsed};
                         nodeStatus[id] = true;
                         nodeNames[id] = name;
-                        callback();
+
+                        // Increment the processedNodesCount
+                        processedNodesCount++;
+
+                        // Check if all nodes have been processed
+                        if (processedNodesCount === nodes.length) {
+                            // Call the callback only when all nodes are processed
+                            callback('done');
+                        }
                     }).catch((error) => {
                         // No response means that the node is offline.
                         if(nodeStatus[id] == true){
@@ -265,7 +289,15 @@ function getNodeStatus(callback){
                         allNodes[id] = {id: id, public: public, maintenanceMode: maintenanceMode, name: name, fqdn: fqdn, scheme: scheme, port: port, disk: disk};
                         nodeStatus[id] = false;
                         nodeNames[id] = name;
-                        callback();
+
+                        // Increment the processedNodesCount
+                        processedNodesCount++;
+
+                        // Check if all nodes have been processed
+                        if (processedNodesCount === nodes.length) {
+                            // Call the callback only when all nodes are processed
+                            callback('done');
+                        }
                     });
                 }).catch(() => {
                     // No response means that the panel is offline. I know we are checking nodes, but the panel hsa gone offline
@@ -299,12 +331,18 @@ function sendEmbed(itemName, status){
             .setDescription(config.statusMessage[statusText].description.replace(/{name}/g, itemName))
             .setFooter({ text: config.statusMessage[statusText].footer.replace(/{name}/g, itemName) })
             .setColor(config.statusMessage[statusText].colour);
-            // .setImage(config.statusMessage[statusText].image)
-            // .setThumbnail(config.statusMessage[statusText].image);
+            
+            if(config.statusMessage[statusText].timestamp){
+                embed.setTimestamp();
+            }
 
-        if(config.statusMessage[statusText].timestamp){
-            embed.setTimestamp();
-        }
+            if(config.statusMessage[statusText].image != ''){
+                embed.setImage(config.statusMessage[statusText].image);
+            }
+
+            if(config.statusMessage[statusText].thumbnail != ''){
+                embed.setThumbnail(config.statusMessage[statusText].thumbnail);
+            }
   
         channel.send({ embeds: [embed] });
     }

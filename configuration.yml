@@ -1,14 +1,14 @@
 loggingName: 'WebWorks Server Status' # Just for console logging
 
 discordBot:
-  token: 'MTAyMDYxMjc3MzU4OTI5MTA0OA.GVr6c0.N6YWDCqrQTm_LE0HMLv2EGoEYAfPnxgokM11-E' # Enter your bot token here
+  token: '' # Enter your bot token here
   text: 'Testing' # The text for the discord bot
   type: 'watching' # This can be set to 'watching', 'playing', 'listening', or 'competing'
   status: 'online' # This can be set to 'online', 'idle', 'dnd'(do not disturb), or 'invisible'
 
 discordServer:
-  channelID: '1020619434450243614' # Set this to the channel ID where you want notifications to be sent
-  liveChannelID: '1020619434450243614' # Set this to the channel ID where you want the status message to be sent
+  channelID: '' # Set this to the channel ID where you want notifications to be sent
+  liveChannelID: '' # Set this to the channel ID where you want the status message to be sent
 
 statusText:
   online: '<:online:1160669028323442708> Online'
@@ -62,6 +62,6 @@ messageButtons:
     url: ''
 
 pterodactyl:
-  apiKey: 'ptla_ojkHeSPsKFLjG0vK7TRZav9dotBAuL0T5LZAv9ZG3k9' # Set this to your panel API key. It can be created @ https://yourpanel.com/admin/api
-  url: 'https://panel.webworkshub.online' # Should start with https:// or http://. Should not contain any url slug. And MUST NOT contain the / at the end
+  apiKey: '' # Set this to your panel API key. It can be created @ https://yourpanel.com/admin/api
+  url: '' # Should start with https:// or http://. Should not contain any url slug. And MUST NOT contain the / at the end
   refresh: 10 # In seconds how long between update.
